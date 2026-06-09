@@ -45,9 +45,25 @@
     // Eager-load the first image, lazy-load the rest.
     img.loading = i === 0 ? "eager" : "lazy";
     img.decoding = "async";
-    frame.appendChild(img);
 
-    var caption = document.createElement("figcaption");
+    // Wrap the image in a button so it can be enlarged via mouse or keyboard.
+    var zoomBtn = document.createElement("button");
+    zoomBtn.type = "button";
+    zoomBtn.className = "slide__zoom";
+    zoomBtn.setAttribute("aria-label", "Enlarge image: " + slide.title);
+    zoomBtn.appendChild(img);
+    zoomBtn.addEventListener("click", function () { openLightbox(slide, zoomBtn); });
+    frame.appendChild(zoomBtn);
+
+    // Visible alt-text caption beneath the image (figure's own caption).
+    // aria-hidden so screen readers don't read it twice (the img alt already conveys it).
+    var altCap = document.createElement("figcaption");
+    altCap.className = "slide__alt";
+    altCap.textContent = slide.alt;
+    altCap.setAttribute("aria-hidden", "true");
+    frame.appendChild(altCap);
+
+    var caption = document.createElement("div");
     caption.className = "slide__caption";
 
     var semester = document.createElement("p");
@@ -118,11 +134,50 @@
   prevBtn.addEventListener("click", prev);
 
   document.addEventListener("keydown", function (e) {
+    // Don't navigate slides while the enlarged-image view is open.
+    if (lightbox && !lightbox.hidden) return;
     if (e.key === "ArrowRight") { next(); }
     else if (e.key === "ArrowLeft") { prev(); }
     else if (e.key === "Home") { go(0); }
     else if (e.key === "End") { go(slides.length - 1); }
   });
+
+  // ---- Lightbox (enlarge image) ----
+  var lightbox = document.getElementById("lightbox");
+  var lightboxImg = document.getElementById("lightboxImg");
+  var lightboxCap = document.getElementById("lightboxCap");
+  var lightboxClose = document.getElementById("lightboxClose");
+  var lastTrigger = null;
+
+  function openLightbox(slide, trigger) {
+    if (!lightbox) return;
+    lastTrigger = trigger || null;
+    lightboxImg.src = slide.src;
+    lightboxImg.alt = slide.alt;
+    lightboxCap.textContent = slide.title + " — " + slide.alt;
+    lightbox.hidden = false;
+    document.body.style.overflow = "hidden";
+    lightboxClose.focus();
+  }
+
+  function closeLightbox() {
+    if (!lightbox || lightbox.hidden) return;
+    lightbox.hidden = true;
+    lightboxImg.removeAttribute("src");
+    document.body.style.overflow = "";
+    if (lastTrigger) { lastTrigger.focus(); lastTrigger = null; }
+  }
+
+  if (lightbox) {
+    lightboxClose.addEventListener("click", closeLightbox);
+    // Click on the dark backdrop (but not the image/caption) closes it.
+    lightbox.addEventListener("click", function (e) {
+      if (e.target === lightbox) closeLightbox();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") closeLightbox();
+    });
+  }
 
   // Touch swipe
   var touchX = null;

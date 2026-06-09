@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Site Studies — A Chicago Architecture Slide Deck</title>
+  <meta name="description" content="A responsive, accessible slide deck of architecture-studio site-analysis images, grouped by Chicago neighborhood." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poiret+One&family=Spectral:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="deck-header">
+    <div class="deck-header__rule" aria-hidden="true"></div>
+    <p class="deck-header__kicker">Architecture Studio · Site Studies</p>
+    <h1 class="deck-header__title">The City as Site</h1>
+    <p class="deck-header__sub">Nine years of Chicago neighborhood analysis, grouped by place.</p>
+    <div class="deck-header__rule" aria-hidden="true"></div>
+  </header>
+
+  <main id="deck" class="deck" role="region" aria-roledescription="carousel" aria-label="Chicago architecture site-study slides">
+
+    <!-- Slide stage: populated by script.js from slides.js -->
+    <div id="stage" class="stage" aria-live="off"></div>
+
+    <!-- Controls -->
+    <nav class="controls" aria-label="Slide navigation">
+      <button id="prevBtn" class="controls__btn" type="button" aria-label="Previous slide">
+        <span class="controls__chevron" aria-hidden="true">&#8592;</span>
+        <span class="controls__label">Prev</span>
+      </button>
+
+      <div class="controls__meta">
+        <p id="groupLabel" class="controls__group">&nbsp;</p>
+        <p id="counter" class="controls__counter">&nbsp;</p>
+      </div>
+
+      <button id="nextBtn" class="controls__btn" type="button" aria-label="Next slide">
+        <span class="controls__label">Next</span>
+        <span class="controls__chevron" aria-hidden="true">&#8594;</span>
+      </button>
+    </nav>
+
+    <!-- Dot indicators -->
+    <div id="dots" class="dots" role="tablist" aria-label="Choose a slide"></div>
+
+    <!-- Screen-reader-only live announcer for slide changes -->
+    <p id="liveStatus" class="visually-hidden" aria-live="polite"></p>
+  </main>
+
+  <footer class="deck-footer">
+    <p>Use the <kbd>&larr;</kbd> / <kbd>&rarr;</kbd> arrow keys, the buttons, or swipe to navigate.</p>
+  </footer>
+
+  <script src="slides.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

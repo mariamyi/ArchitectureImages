@@ -50,8 +50,17 @@
   </main>
 
   <footer class="deck-footer">
-    <p>Use the <kbd>&larr;</kbd> / <kbd>&rarr;</kbd> arrow keys, the buttons, or swipe to navigate.</p>
+    <p>Click any image to enlarge it. Use the <kbd>&larr;</kbd> / <kbd>&rarr;</kbd> arrow keys, the buttons, or swipe to navigate.</p>
   </footer>
+
+  <!-- Lightbox / enlarged-image view -->
+  <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Enlarged image" hidden>
+    <button id="lightboxClose" class="lightbox__close" type="button" aria-label="Close enlarged image">&times;</button>
+    <figure class="lightbox__figure">
+      <img id="lightboxImg" class="lightbox__img" alt="" />
+      <figcaption id="lightboxCap" class="lightbox__cap"></figcaption>
+    </figure>
+  </div>
 
   <script src="slides.js"></script>
   <script src="script.js"></script>
